@@ -1,12 +1,12 @@
-// Mask.cpp
 #include "Mask.h"
 #include "debug.h"
-
+// Creating mask and displaying debug messages
 Mask::Mask(int width, int height) : width(width), height(height) {
     maskData.resize(height, std::vector<bool>(width, false));
     debug::log("Mask created with dimensions: " + std::to_string(width) + "x" + std::to_string(height));
 }
 
+// 
 void Mask::createSquare(int centerX, int centerY, int size) {
     debug::log("Creating square mask at (" + std::to_string(centerX) + ", " + std::to_string(centerY) + ") with size " + std::to_string(size));
     if (size <= 0) {
@@ -37,4 +37,3 @@ bool Mask::isInside(int x, int y) const {
         return false;
     }
     return maskData[y][x];
-}

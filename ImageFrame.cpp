@@ -5,6 +5,7 @@
 #include "ImageFrame.h"
 #include "debug.h"
 #include "Mask.h"
+#include "GraphicsUtil.h"  // Changed from terminal_graphics.h to GraphicsUtil.h
 
 
 ImageFrame::ImageFrame() : width(0), height(0), maxValue(0) {} 
@@ -87,31 +88,7 @@ float ImageFrame::calculateMeanInRegion(const Mask& mask) const {
 }
 
 void ImageFrame::displayOnTerminal() const {
-    std::cout << "Image" << width << "x" << height << std::endl;
-    
     debug::log("Displaying image on terminal");
-
-    // Adjust the step size to make the image more compact and visible
-    // Use smaller steps to show more detail
-    int xStep = std::max(1, width / 80);  // Limit to ~80 chars wide
-    int yStep = std::max(1, height / 40); // Limit to ~40 lines tall
-    
-    for (int y = 0; y < height; y += yStep) {
-        for (int x = 0; x < width; x += xStep) {
-            int value = pixelData[y][x];
-            char c = ' ';
-            
-            // Map grayscale values to ASCII characters for better contrast
-            if (value < maxValue / 10) c = ' ';            // Very dark
-            else if (value < maxValue / 5) c = '.';        // Dark
-            else if (value < maxValue / 3) c = ':';        // Medium-dark
-            else if (value < maxValue / 2) c = 'o';        // Medium
-            else if (value < 2 * maxValue / 3) c = 'O';    // Medium-bright
-            else if (value < 4 * maxValue / 5) c = '0';    // Bright
-            else c = '@';                                  // Very bright
-            
-            std::cout << c;
-        }
-        std::cout << std::endl;
-    }
+    // Use our GraphicsUtil to display the image
+    GraphicsUtil::displayImage(*this);
 }

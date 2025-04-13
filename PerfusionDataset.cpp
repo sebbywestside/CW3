@@ -1,34 +1,11 @@
 // PerfusionDataset.cpp
 #include "PerfusionDataset.h"
 #include "debug.h"
+#include "GraphicsUtil.h"  // Changed from terminal_graphics.h to GraphicsUtil.h
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "terminal_graphics.h"
-
-// Private helper function in anonymous namespace to avoid linker conflicts
-namespace {
-    void plotTimecourseTG(const std::vector<float>& values, 
-                          float minVal, float maxVal, 
-                          float gridX, float gridY,
-                          int colorIndex) {
-        // Create x-axis (frame numbers)
-        std::vector<float> xValues(values.size());
-        for (size_t i = 0; i < xValues.size(); ++i) {
-            xValues[i] = i;
-        }
-        
-        float yMargin = (maxVal - minVal) * 0.1f;  // 10% margin
-        
-        // Plot using TG library
-        TG::plot(512, 200)
-            .set_xlim(0, values.size() - 1)
-            .set_ylim(minVal - yMargin, maxVal + yMargin)
-            .set_grid(gridX, gridY)
-            .add_line(xValues, values, colorIndex);
-    }
-}
 
 PerfusionDataset::PerfusionDataset() 
     : arrivalFrame(-1), 
@@ -189,8 +166,8 @@ void PerfusionDataset::plotSignalTimecourse() const {
     
     debug::log("Signal range: " + std::to_string(minSignal) + " to " + std::to_string(maxSignal));
     
-    // Use the helper function to plot
-    plotTimecourseTG(signalTimecourse, minSignal, maxSignal, 2, 20, 2);  // Yellow line
+    // Use GraphicsUtil to plot
+    GraphicsUtil::plotTimecourse(signalTimecourse, minSignal, maxSignal, 2, 20, 2);  // Yellow line
 }
 
 void PerfusionDataset::plotGradientTimecourse() const {
@@ -207,8 +184,8 @@ void PerfusionDataset::plotGradientTimecourse() const {
     
     debug::log("Gradient range: " + std::to_string(minGradient) + " to " + std::to_string(maxGradient));
     
-    // Use the helper function to plot
-    plotTimecourseTG(gradientTimecourse, minGradient, maxGradient, 2, 10, 3);  // Magenta line
+    // Use GraphicsUtil to plot
+    GraphicsUtil::plotTimecourse(gradientTimecourse, minGradient, maxGradient, 2, 10, 3);  // Magenta line
 }
 
 void PerfusionDataset::displayResults() const {
