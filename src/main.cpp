@@ -10,7 +10,7 @@
 
 int main() {
     // Enable debug logging
-    debug::verbose = true;
+    debug::verbose = false;
     debug::log("Program started");
     
     // Load contrast agent info

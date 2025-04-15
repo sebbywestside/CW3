@@ -5,12 +5,11 @@
 #include "Mask.h"
 #include "ContrastAgent.h"
 #include "PerfusionDataset.h"
-// Removed terminal_graphics.h include
 #include "debug.h"
 
 int main() {
-    // Enable debug logging
-    debug::verbose = true;
+    // Enable/Disable debug logging
+    debug::verbose = false;
     debug::log("Program started");
     
     // Load contrast agent info
@@ -25,7 +24,7 @@ int main() {
     // Load MRI perfusion dataset
     debug::log("Loading MRI perfusion dataset");
     PerfusionDataset dataset;
-    if (!dataset.loadImages("mri-", 20)) { // Assuming 20 images, adjust as needed
+    if (!dataset.loadImages("mri-", 20)) { 
         std::cerr << "Failed to load MRI images" << std::endl;
         debug::log("ERROR: Failed to load MRI images, exiting");
         return 1;
